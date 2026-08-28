@@ -1,102 +1,77 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RA — Mini sistema solar (AR.js)</title>
-  <!-- Versiones que DEBEN coincidir: AR.js 3.4.7 con A-Frame 1.6.0 -->
-  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar.js"></script>
-</head>
-<body style="margin:0; overflow:hidden;">
-  <!--
-    RA basada en marcadores — versión "bonita": un mini sistema solar animado.
-    PASOS:
-    1) Imprime el marcador "Hiro":
-       https://raw.githack.com/AR-js-org/AR.js/master/data/images/hiro.png
-    2) Sube este archivo a Vercel (como index.html en un repo nuevo, o con su nombre).
-    3) Abre la URL en el CELULAR, acepta la cámara y apunta al marcador impreso.
+<a-marker preset="hiro">
 
-    IDEA: todo lo que va dentro de <a-marker> aparece SOBRE el marcador.
-    Las órbitas se logran con "pivotes" (entidades vacías) que giran; cada planeta
-    cuelga de su pivote a cierta distancia, así que orbita al sol.
-  -->
-  <a-scene embedded vr-mode-ui="enabled: false"
-           arjs="sourceType: webcam; debugUIEnabled: false;">
+  <a-entity position="0 0.5 0" rotation="-15 0 0" scale="0.4 0.4 0.4">
 
-    <a-marker preset="hiro">
+    <!-- SOL -->
+    <a-sphere radius="0.3" color="#FFC65D"
+              animation__spin="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear"
+              animation__pulse="property: scale; dir: alternate; to: 1.1 1.1 1.1; loop: true; dur: 1500; easing: easeInOutSine">
+    </a-sphere>
 
-      <!-- Contenedor: lo levantamos un poco y lo inclinamos para verlo mejor -->
-      <a-entity position="0 0.1 0" rotation="-15 0 0">
+    <!-- Anillos-guía -->
+    <a-ring color="#FFF" radius-inner="0.49" radius-outer="0.51" rotation="-90 0 0" opacity="0.3"></a-ring>
+    <a-ring color="#FFF" radius-inner="0.69" radius-outer="0.71" rotation="-90 0 0" opacity="0.3"></a-ring>
+    <a-ring color="#FFF" radius-inner="0.89" radius-outer="0.91" rotation="-90 0 0" opacity="0.3"></a-ring>
+    <a-ring color="#FFF" radius-inner="1.19" radius-outer="1.21" rotation="-90 0 0" opacity="0.3"></a-ring>
+    <a-ring color="#FFF" radius-inner="1.59" radius-outer="1.61" rotation="-90 0 0" opacity="0.3"></a-ring>
+    <a-ring color="#FFF" radius-inner="2.09" radius-outer="2.11" rotation="-90 0 0" opacity="0.3"></a-ring>
+    <a-ring color="#FFF" radius-inner="2.49" radius-outer="2.51" rotation="-90 0 0" opacity="0.3"></a-ring>
+    <a-ring color="#FFF" radius-inner="2.89" radius-outer="2.91" rotation="-90 0 0" opacity="0.3"></a-ring>
 
-        <!-- SOL: esfera amarilla al centro que gira sobre su eje y "late" suavemente -->
-        <a-sphere radius="3.4" color="#FFC65D"
-                  animation__spin="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear"
-                  animation__pulse="property: scale; dir: alternate; to: 1.08 1.08 1.08; loop: true; dur: 1500; easing: easeInOutSine">
-        </a-sphere>
+    <!-- MERCURIO -->
+    <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
+      <a-sphere position="0.5 0 0" radius="0.05" color="#a18435"></a-sphere>
+    </a-entity>
 
-        <!-- Anillos-guía de las órbitas (aros delgados y translúcidos) -->
-        <a-ring color="#FFFFFF" radius-inner="0.63" radius-outer="0.65" rotation="-90 0 0" opacity="0.35"></a-ring>
-        <a-ring color="#FFFFFF" radius-inner="0.93" radius-outer="0.95" rotation="-90 0 0" opacity="0.3"></a-ring>
-        <a-ring color="#FFFFFF" radius-inner="1.23" radius-outer="1.25" rotation="-90 0 0" opacity="0.25"></a-ring>
+    <!-- VENUS -->
+    <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 7000; easing: linear">
+      <a-sphere position="0.7 0 0" radius="0.08" color="#c7872e"></a-sphere>
+    </a-entity>
 
-        <!-- PLANETA 1 (mercurio) — pivote que gira rápido -->
-        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
-          <a-sphere position="0.64 0 0" radius="0.59" color="#a18435"></a-sphere>
+    <!-- TIERRA -->
+    <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 11000; easing: linear">
+      <a-entity position="0.9 0 0">
+        <a-sphere radius="0.09" color="#68c5ed"></a-sphere>
+        <!-- LUNA -->
+        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 2500; easing: linear">
+          <a-sphere position="0.15 0 0" radius="0.02" color="#EDEDED"></a-sphere>
         </a-entity>
-
-        <!-- PLANETA 2 (venus) — velocidad media, con una LUNA propia -->
-        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 7000; easing: linear">
-          <a-entity position="0.94 0 0">
-            <a-sphere radius="0.76" color="#c7872e"></a-sphere>
-          </a-entity>
-        </a-entity>
-
-        <!-- PLANETA 3 (tierra) — el más lento y externo -->
-        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 11000; easing: linear">
-          <a-sphere position="1.24 0 0" radius="0.97" color="#68c5ed"></a-sphere>
-           <!-- luna orbitando  -->
-            <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 2500; easing: linear">
-              <a-sphere position="0.28 0 0" radius="0.05" color="#EDEDED"></a-sphere>
-            </a-entity>
-        </a-entity>
-
-        <!-- PLANETA 4 (marte) — el más lento y externo -->
-        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 22000; easing: linear">
-          <a-sphere position="1.64 0 0" radius="0.74" color="#ff7700"></a-sphere>
-        </a-entity>
-
-         <!-- PLANETA 5 (jupiter) — el más lento y externo -->
-        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 28000; easing: linear">
-          <a-sphere position="1.84 0 0" radius="2.3" color="#d99f6c"></a-sphere>
-        </a-entity>
-
-        <!-- PLANETA 6 (saturno) — velocidad media, con una LUNA propia -->
-        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 30000; easing: linear">
-          <a-entity position="1.95 0 0">
-            <a-sphere radius="2.1" color="#e3cf8d"></a-sphere>
-          </a-entity>
-        </a-entity>
-
-        <!-- PLANETA 6 (Urano) — el más lento y externo -->
-        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 33000; easing: linear">
-          <a-sphere position="2.5 0 0" radius="1.6" color="#2bbfc4"></a-sphere>
-        </a-entity>
-
-        <!-- PLANETA 7 (Neptuno) — el más lento y externo -->
-        <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 37000; easing: linear">
-          <a-sphere position="2.9 0 0" radius="1.4" color="#124596"></a-sphere>
-        </a-entity>
-
       </a-entity>
+    </a-entity>
 
-      <!-- Título flotante sobre el marcador -->
-      <a-text value="Sistema Solar RA" align="center" position="0 1.7 0"
-              rotation="-15 0 0" color="#111" width="4"></a-text>
+    <!-- MARTE -->
+    <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 15000; easing: linear">
+      <a-sphere position="1.2 0 0" radius="0.07" color="#ff7700"></a-sphere>
+    </a-entity>
 
-    </a-marker>
+    <!-- JUPITER -->
+    <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 22000; easing: linear">
+      <a-sphere position="1.6 0 0" radius="0.18" color="#d99f6c"></a-sphere>
+    </a-entity>
 
-    <a-entity camera></a-entity>
-  </a-scene>
-</body>
-</html>
+    <!-- SATURNO -->
+    <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 28000; easing: linear">
+      <a-entity position="2.1 0 0">
+        <a-sphere radius="0.15" color="#e3cf8d"></a-sphere>
+        <a-ring color="#a5945d" radius-inner="0.18" radius-outer="0.25" rotation="-80 0 0"></a-ring>
+      </a-entity>
+    </a-entity>
+
+    <!-- URANO -->
+    <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 33000; easing: linear">
+      <a-sphere position="2.5 0 0" radius="0.12" color="#2bbfc4"></a-sphere>
+    </a-entity>
+
+    <!-- NEPTUNO -->
+    <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 37000; easing: linear">
+      <a-sphere position="2.9 0 0" radius="0.11" color="#124596"></a-sphere>
+    </a-entity>
+
+  </a-entity>
+
+  <a-text value="Sistema Solar RA" align="center" position="0 1.2 0"
+          rotation="-15 0 0" color="#FFF" width="4"></a-text>
+
+</a-marker>
+
+<a-entity camera></a-entity>
